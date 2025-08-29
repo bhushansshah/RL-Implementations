@@ -23,7 +23,7 @@ This repo will serve as a growing collection of RL algorithms with clean, modula
 Currently, the repo is under development. Algorithms will be added periodically.  
 Here’s the growing list of implementations:
 
-- [ ] Multi-Armed Bandits  
+- [x] Multi-Armed Bandits  
   
 
 ---
