@@ -24,7 +24,8 @@ Currently, the repo is under development. Algorithms will be added periodically.
 Here’s the growing list of implementations:
 
 - [x] Multi-Armed Bandits  
-  
+- [x] Jack's Car Problem - I
+- [] Jack's Car Problem - II
 
 ---
 

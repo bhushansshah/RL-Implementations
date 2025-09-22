@@ -75,11 +75,13 @@ JACK'S CAR PROBLEM/                # Root project directory
 │   └── visualization.py           # Plotting functions for policy/value heatmaps
 │
 ├── weights/                       # Stored run artifacts (learned weights/policies)
-│   └── __init__.py                # Placeholder so directory is importable (can be optional)
+│   └── policy.npy                 # Storing learned policy as numpy array
+│   └── value_function.npy         # Storing learned value function as numpy array
 │
 ├── main.py                        # Entry point to run the whole project (training + saving + plotting)
 ├── requirements.txt               # Python dependencies needed to run the project
-└── test                           # Placeholder for tests (recommend renaming to tests/ with __init__.py)
+└── tests                          
+│   └── checking_policy.ipynb      # Exploring the optimal policy.
 
 ```
 
