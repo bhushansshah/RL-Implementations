@@ -88,6 +88,23 @@ JACK'S CAR PROBLEM/                # Root project directory
 ---
 
 ## ▶️ Running the Project
+
+1. Create a virtual environment
+```bash
+python3 -m venv env
+```
+
+2. Activate the environment
+```bash
+source env/bin/activate
+```
+
+3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+4. Run the project
 ```bash
 python main.py   --policy_plot_file_path images/policy.png   --value_function_plot_file_path images/value_function.png   --policy_data_file_path weights/policy.npy   --value_data_file_path weights/value_function.npy
 ```
