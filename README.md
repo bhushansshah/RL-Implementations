@@ -25,7 +25,7 @@ Here’s the growing list of implementations:
 
 - [x] Multi-Armed Bandits  
 - [x] Jack's Car Problem - I
-- [] Jack's Car Problem - II
+- [x] Jack's Car Problem - II
 
 ---
 
@@ -34,3 +34,4 @@ Clone the repo:
 ```bash
 git clone git@github.com:bhushansshah/RL-Implementations
 cd RL-Implementations
+```

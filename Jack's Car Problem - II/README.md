@@ -1,54 +1,68 @@
 # Jack’s Car Rental – Policy Iteration (Reinforcement Learning)
 
 ## 📖 Problem Statement
-This project implements **Example 4.2 (Jack’s Car Rental)** from Sutton & Barto’s *Reinforcement Learning: An Introduction* (2nd Edition).
+This project implements **Jack’s Car Rental** from Sutton & Barto’s *Reinforcement Learning: An Introduction* (2nd Edition), using **Policy Iteration** to solve the resource allocation problem.
 
 Jack manages **two car rental locations**.  
 - Each day, customers arrive to rent cars.  
 - If cars are available → Jack earns **$10 per rental**.  
 - If no cars are available → demand is lost.  
-- Cars are returned the next day (according to Poisson distributions).  
-- Overnight, Jack may move cars between locations at a cost of **$2 per car moved**.  
-- Each location can hold a **maximum of 20 cars**.  
-- At most **5 cars can be moved per night**.  
+- Cars are returned the next day (Poisson-distributed).  
+- Overnight, Jack may move cars between locations at a cost.  
+- Each location has limited capacity.  
 - Discount factor: **γ = 0.9**.
 
-The task is to formulate this as a **Markov Decision Process (MDP)** and solve it using **Policy Iteration** to find the optimal strategy for moving cars.
+We study **two versions** of the problem:  
+1. **Problem I (Original)** – Basic version as described in Example 4.2 of Sutton & Barto.  
+2. **Problem II (Modified)** – With additional constraints:  
+   - Free move: One car from Location 1 → Location 2 can be moved for free.  
+   - Parking cost: Keeping **>10 cars overnight** at any location incurs a **$4 cost**.  
 
 ---
 
 ## ⚙️ Method
-We use the **Policy Iteration algorithm**:
+We solve both problems using **Policy Iteration**:
 1. **Policy Evaluation**  
-   Iteratively compute the state-value function \(V(s)\) under the current policy.
+   Iteratively compute the state-value function \(V(s)\) under the current policy.  
 2. **Policy Improvement**  
-   For each state, update the action (cars moved) that maximizes expected return.
-3. **Repeat** until the policy converges to the optimal policy \(\pi^*\).
+   Update the policy greedily with respect to expected returns.  
+3. **Repeat** until convergence.
 
 ---
 
 ## 📊 Results
 
-### Optimal Policy
-The learned policy specifies **how many cars to move overnight** between locations, depending on the number of cars at each site.
+### Problem I – Original Setup
+The learned policy balances car distribution while accounting for move costs.  
 
-![Policy](images/policy.png)
+**Optimal Policy (Problem I):**
+![Policy](../Jack's%20Car%20Problem%20-%20I/images/policy.png)
 
-- **Red**: Move cars from Location 1 → Location 2.  
-- **Blue**: Move cars from Location 2 → Location 1.  
-- **Gray**: No movement.  
+- **Red** = Move cars from Location 1 → Location 2  
+- **Blue** = Move cars from Location 2 → Location 1  
+- **Gray** = No movement  
 
-The policy balances car distribution to maximize rentals and minimize wasted returns.
+**Optimal Value Function (Problem I):**
+![Value Function](../Jack's%20Car%20Problem%20-%20I/images/value_function.png)
+
+- Highest values occur when cars are **balanced between locations**, not at maximum capacity.  
+- Shows the tradeoff between keeping cars available vs. leaving room for returns.  
 
 ---
 
-### Optimal Value Function
-The state-value function shows the **expected long-term return** for each state.
+### Problem II – Modified Setup
+With the **free move** and **parking penalty**, the learned strategy changes noticeably:
 
+**Optimal Policy (Problem II):**
+![Policy](images/policy.png)
+
+- There is a stronger **bias towards moving cars from Location 1 → Location 2**, since the **first car is free**.  
+- Policy avoids leaving **>10 cars** at either location, to prevent the **$4 parking penalty**.  
+
+**Optimal Value Function (Problem II):**
 ![Value Function](images/value_function.png)
 
-- Maximum values occur **not at (20,20)** but around **balanced mid-range states (~10–15 cars each)**.  
-- This reflects that too many cars → wasted returns, too few cars → lost rentals.  
+- The maximum expected returns shift further **towards balanced states with ≤10 cars** per location.   
 
 ---
 
@@ -89,22 +103,18 @@ JACK'S CAR PROBLEM/                # Root project directory
 
 ## ▶️ Running the Project
 
-1. Create a virtual environment
+1. Create and activate a virtual environment:
 ```bash
 python3 -m venv env
-```
-
-2. Activate the environment
-```bash
 source env/bin/activate
 ```
 
-3. Install dependencies
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Run the project
+3. Run policy iteration:
 ```bash
 python3 main.py   --policy_plot_file_path images/policy.png   --value_function_plot_file_path images/value_function.png   --policy_data_file_path weights/policy.npy   --value_data_file_path weights/value_function.npy
 ```
@@ -112,8 +122,6 @@ python3 main.py   --policy_plot_file_path images/policy.png   --value_function_p
 ---
 
 ## ✅ Key Insights
-- The optimal policy **does not hoard cars** — instead it keeps cars balanced and allows room for returns.  
-- The value function demonstrates that **flexibility (space to accept returns)** can be more valuable than **having maximum cars in stock**.  
-- This project shows how **dynamic programming** (policy iteration) solves real-world resource allocation problems in reinforcement learning.
-
----
+- **Problem I:** Optimal strategy keeps cars balanced while minimizing unnecessary moves.  
+- **Problem II:** Free moves encourage bias towards Location 2, while the parking penalty forces states to stay under the **10-car limit** at both locations.  
+- This demonstrates how small real-world nonlinearities (free perks, storage costs) can lead to significant changes in the **optimal RL policy**.  
