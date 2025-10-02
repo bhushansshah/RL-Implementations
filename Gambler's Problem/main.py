@@ -5,8 +5,8 @@ from algorithm.value_iteration import ValueIteration
 from utils.visualization import plot_policy, plot_value
 
 def main(policy_plot_file_path, value_function_plot_file_path,
-         policy_data_file_path, value_data_file_path):
-    env = GamblerEnv(prob_head=0.4)
+         policy_data_file_path, value_data_file_path, prob_head):
+    env = GamblerEnv(prob_head=prob_head)
     solver = ValueIteration(env)
     policy, V = solver.run()
 
@@ -22,8 +22,8 @@ def main(policy_plot_file_path, value_function_plot_file_path,
     np.save(value_data_file_path, value_matrix)
     
     # Save plots
-    plot_policy(policy_matrix, save_path=policy_plot_file_path)
-    plot_value(value_matrix, title="Optimal State-Value Function", save_path=value_function_plot_file_path)
+    plot_policy(policy_matrix, save_path=policy_plot_file_path, title=f"Optimal Policy (ph={prob_head})")
+    plot_value(value_matrix, title=f"Optimal State-Value Function (ph={prob_head})", save_path=value_function_plot_file_path)
 
 
     print(f"Policy saved at {policy_data_file_path}")
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     parser.add_argument("--value_function_plot_file_path", type=str, required=True, help="Path to save value function plot image")
     parser.add_argument("--policy_data_file_path", type=str, required=True, help="Path to save raw policy array (.npy)")
     parser.add_argument("--value_data_file_path", type=str, required=True, help="Path to save raw value array (.npy)")
-
+    parser.add_argument("--prob_head", type=float, default=0.4, help="Probability of heads in the coin flip")
     args = parser.parse_args()
 
     main(
@@ -43,4 +43,5 @@ if __name__ == "__main__":
         args.value_function_plot_file_path,
         args.policy_data_file_path,
         args.value_data_file_path,
+        args.prob_head
     )

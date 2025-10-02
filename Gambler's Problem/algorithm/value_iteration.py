@@ -7,6 +7,7 @@ class ValueIteration:
         self.theta = theta
         # Initialize value function randomly
         self.V = np.zeros(env.winning_capital + 1)
+        self.V[env.winning_capital] = 1.0  # Winning state
         self.policy = Policy(env)
 
     def value_iteration(self):
@@ -22,6 +23,7 @@ class ValueIteration:
                 }
                 if action_returns:
                     self.V[s] = max(action_returns.values())
+
                 delta = max(delta, abs(v - self.V[s]))
             print(f"  Value Iteration Iteration {counter}, delta={delta}")
             if delta < self.theta:
@@ -34,6 +36,7 @@ class ValueIteration:
                 for a in self.env.actions(s)
             }
             if action_returns:
+                # If there are more than one action with the same value, we can choose any of them randomly
                 best_action = max(action_returns, key=action_returns.get)
                 self.policy.update(s, best_action)
         return

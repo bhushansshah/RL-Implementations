@@ -26,7 +26,7 @@ Here’s the growing list of implementations:
 - [x] Multi-Armed Bandits  
 - [x] Jack's Car Problem - I
 - [x] Jack's Car Problem - II
-
+- [x] Gambler's Problem
 ---
 
 ## ⚙️ Installation
